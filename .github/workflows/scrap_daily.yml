@@ -2,7 +2,8 @@ name: Daily Scraper
 
 on:
   schedule:
-    - cron: '0 11 * * *'  # Schedule to run every day at 8 am Buenos Aires time (which is 11 am UTC)
+      - cron: '25 14 * * *'  # Schedule to run every day at 11:25 am Buenos Aires time (14:25 UTC)
+#    - cron: '0 11 * * *'  # Schedule to run every day at 8 am Buenos Aires time (which is 11 am UTC)
 
 jobs:
   scrape:
