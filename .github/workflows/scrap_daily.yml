@@ -28,7 +28,7 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config user.name "Felipegodi"
+          git config user.name "felipegodi"
           git config user.email "felipegarciavassallo@gmail.com"
           git add .
           git commit -m "Auto-generated data update"
