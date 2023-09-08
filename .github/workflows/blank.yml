@@ -1,0 +1,41 @@
+name: Daily Scraper
+
+on:
+  schedule:
+    - cron: '0 11 * * *'  # Schedule to run every day at 8 am Buenos Aires time (which is 11 am UTC)
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+          pip install beautifulsoup4
+          pip install pandas
+          pip install nbconvert  # Install nbconvert for Jupyter Notebook conversion
+
+      - name: Convert Notebook to Python script
+        run: |
+          jupyter nbconvert --to script IPO_scraper.ipynb
+          mv IPO_scraper.py IPO_scraper_fintech.py  # Rename the converted script as needed
+
+      - name: Run scraper
+        run: python IPO_scraper_fintech.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "Felipegodi"
+          git config user.email "felipegarciavassallo@gmail.com"
+          git add .
+          git commit -m "Auto-generated data update"
+          git push
