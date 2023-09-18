@@ -86,5 +86,5 @@ df = df.reset_index(drop=True)
 #today = datetime.today().strftime('_%m_%d_%Y')
 today = datetime.today().strftime('_%m_%d_%Y')
 filename = f'stocks{today}.xlsx'
-path = 'Scrap_IPO_FinTechs/metrics/'
+path = '/home/runner/work/Scrap_IPO_FinTechs/metrics/'
 df.to_excel(f'{path}{filename}')
