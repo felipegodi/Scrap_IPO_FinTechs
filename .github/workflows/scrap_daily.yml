@@ -24,6 +24,9 @@ jobs:
           pip install pandas
           pip install openpyxl
 
+      - name: Create directory
+        run: mkdir -p /home/runner/work/Scrap_IPO_FinTechs/metrics
+
       - name: Run scraper
         run: python IPO_scraper.py  # Replace with the actual name of your Python script
 
