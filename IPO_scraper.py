@@ -82,9 +82,27 @@ for i in all:
     df.index = df.index + 1
 df = df.reset_index(drop=True)
 
+try:
+    # Your existing code to scrape data and create the DataFrame
+
+    # Attempt to save in the specified directory
+    today = datetime.today().strftime('_%m_%d_%Y')
+    path = '/home/runner/work/Scrap_IPO_FinTechs/metrics/'
+    filename = f'stocks{today}.xlsx'
+    df.to_excel(f'{path}{filename}')
+except Exception as e:
+    print(f"An error occurred while saving in the specified directory: {str(e)}")
+    
+    # If saving in the specified directory fails, save in the working directory
+    try:
+        filename = f'stocks{today}.xlsx'
+        df.to_excel(filename)
+        print(f"Saved in the working directory as {filename}")
+    except Exception as e:
+        print(f"An error occurred while saving in the working directory: {str(e)}")
 # Save DataFrame to Excel file with current date in the filename
 #today = datetime.today().strftime('_%m_%d_%Y')
-today = datetime.today().strftime('_%m_%d_%Y')
-filename = f'stocks{today}.xlsx'
-path = '/home/runner/work/Scrap_IPO_FinTechs/metrics/'
-df.to_excel(f'{path}{filename}')
+#today = datetime.today().strftime('_%m_%d_%Y')
+#filename = f'stocks{today}.xlsx'
+#path = '/home/runner/work/Scrap_IPO_FinTechs/metrics/'
+#df.to_excel(f'{path}{filename}')
