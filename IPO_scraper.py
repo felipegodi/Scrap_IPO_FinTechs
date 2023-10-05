@@ -87,7 +87,7 @@ try:
 
     # Attempt to save in the specified directory
     today = datetime.today().strftime('_%m_%d_%Y')
-    path = '/home/runner/work/Scrap_IPO_FinTechs/metrics/'
+    path = '/home/runner/work/Scrap_IPO_FinTechs/metrics'
     filename = f'stocks{today}.xlsx'
     df.to_excel(f'{path}{filename}')
 except Exception as e:
