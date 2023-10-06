@@ -37,18 +37,28 @@ jobs:
           pip install beautifulsoup4
           pip install pandas
           pip install openpyxl
+          pip install os
+
+      #- name: Create directory
+      #  run: mkdir -p /home/runner/work/Scrap_IPO_FinTechs/metrics
 
       - name: Create directory
-        run: mkdir -p /home/runner/work/Scrap_IPO_FinTechs/metrics
+        run: mkdir -p metrics  # This directory is within your repository
 
       - name: Run scraper
         run: python IPO_scraper.py  # Replace with the actual name of your Python script
+
+      #- name: Upload Excel file
+      #  uses: actions/upload-artifact@v2
+      #  with:
+      #    name: scraped-data  # Give your artifact a name
+      #    path: /home/runner/work/Scrap_IPO_FinTechs/metrics/stocks*.xlsx  # Specify the path to the Excel file(s)
 
       - name: Upload Excel file
         uses: actions/upload-artifact@v2
         with:
           name: scraped-data  # Give your artifact a name
-          path: /home/runner/work/Scrap_IPO_FinTechs/metrics/stocks*.xlsx  # Specify the path to the Excel file(s)
+          path: metrics/stocks*.xlsx  # Specify the path to the Excel file(s) within your repository
 
       - name: List files in the working directory
         run: ls -l /home/runner/work/Scrap_IPO_FinTechs/metrics
