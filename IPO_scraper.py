@@ -3,6 +3,10 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from datetime import datetime
+import os
+
+if not os.path.exists('metrics'):
+    os.makedirs('metrics')
   
 headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; \
     Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) \
@@ -87,7 +91,8 @@ try:
 
     # Attempt to save in the specified directory
     today = datetime.today().strftime('_%m_%d_%Y')
-    path = '/home/runner/work/Scrap_IPO_FinTechs/metrics/'
+    path = 'metrics/'
+    #path = '/home/runner/work/Scrap_IPO_FinTechs/metrics/'
     filename = f'stocks{today}.xlsx'
     df.to_excel(f'{path}{filename}')
 except Exception as e:
