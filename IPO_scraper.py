@@ -106,3 +106,4 @@ except Exception as e:
 #filename = f'stocks{today}.xlsx'
 #path = '/home/runner/work/Scrap_IPO_FinTechs/metrics/'
 #df.to_excel(f'{path}{filename}')
+print(df)
