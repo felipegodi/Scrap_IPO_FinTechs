@@ -53,6 +53,11 @@ jobs:
       - name: List files in the working directory
         run: ls -l /home/runner/work/Scrap_IPO_FinTechs/metrics
 
+      - name: Check repository information
+        run: |
+          echo "Current repository: $GITHUB_REPOSITORY"
+          echo "Current branch: $GITHUB_REF"
+
       - name: Commit and push changes
         run: |
           git config user.name "felipegodi"
