@@ -105,10 +105,4 @@ except Exception as e:
         print(f"Saved in the working directory as {filename}")
     except Exception as e:
         print(f"An error occurred while saving in the working directory: {str(e)}")
-# Save DataFrame to Excel file with current date in the filename
-#today = datetime.today().strftime('_%m_%d_%Y')
-#today = datetime.today().strftime('_%m_%d_%Y')
-#filename = f'stocks{today}.xlsx'
-#path = '/home/runner/work/Scrap_IPO_FinTechs/metrics/'
-#df.to_excel(f'{path}{filename}')
-print(df)
+
