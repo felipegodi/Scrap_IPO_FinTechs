@@ -60,7 +60,7 @@ jobs:
           path: metrics/stocks*.xlsx  # Specify the path to the Excel file(s) within your repository
 
       - name: List files in the working directory
-        run: ls -l /home/runner/work/Scrap_IPO_FinTechs/metrics
+        run: ls -l metrics
 
       - name: Check repository information
         run: |
