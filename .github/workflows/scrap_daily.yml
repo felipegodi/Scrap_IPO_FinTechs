@@ -30,6 +30,12 @@ jobs:
       - name: Run scraper
         run: python IPO_scraper.py  # Replace with the actual name of your Python script
 
+      - name: Upload Excel file
+        uses: actions/upload-artifact@v2
+        with:
+          name: scraped-data  # Give your artifact a name
+          path: /home/runner/work/Scrap_IPO_FinTechs/metrics/stocks*.xlsx  # Specify the path to the Excel file(s)
+
       - name: Commit and push changes
         run: |
           git config user.name "felipegodi"
