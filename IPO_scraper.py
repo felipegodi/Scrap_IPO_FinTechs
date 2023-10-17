@@ -30,13 +30,12 @@ html_content = response.content
 soup = BeautifulSoup(html_content, "html.parser")
 
 all=[]
-for url in urls:
+for i, url in enumerate(urls):
     page = requests.get(url,headers=headers)
     try:
         soup = BeautifulSoup(page.text, 
                              'html.parser')
-        #company = soup.find('a', {'class': 'fullview-ticker', 'id': 'ticker'}).text
-        company = soup.find('a', {'class': 'tab-link', 'id': 'ticker'}).text
+        company = stocks[i]
         price_td = soup.find('td', text=re.compile('Prev Close'))
         price = price_td.find_next_sibling('td').text
         price = float(price)
