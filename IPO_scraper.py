@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from datetime import datetime
 import os
+def find_exact_price(element):
+    return element.name == 'td' and element.text.strip() == "Price"
 
 if not os.path.exists('metrics'):
     os.makedirs('metrics')
@@ -24,12 +26,8 @@ for s in stocks:
     url = f"http://finviz.com/quote.ashx?t={s}"
     urls.append(url)
     
-url = "http://finviz.com/quote.ashx?t=FUTU"
-response = requests.get(url,headers=headers)
-html_content = response.content
-soup = BeautifulSoup(html_content, "html.parser")
-
 all=[]
+
 for i, url in enumerate(urls):
     page = requests.get(url,headers=headers)
     try:
@@ -59,25 +57,17 @@ for i, url in enumerate(urls):
             marketcap = float(marketcap)
         else:
             marketcap = None
-        price2_td = None
-        tds = soup.find_all('td', {'class': 'snapshot-td2-cp'})
-        for td in tds:
-            if td.text == 'Price':
-                price2_td = td
-                break
+        price2_td = soup.find(find_exact_price)
+        price2 = price2_td.find_next_sibling('td').text
+        price2 = float(price2)
         
-        if price2_td:
-            price2 = price2_td.find_next_sibling('td').text
-            price2 = float(price2)
-        else:
-            print('Price not found')
         x=[company,price,ptos,ptoe,marketcap,price2]
         all.append(x)
           
     except AttributeError:
       print("Change the Element id")
     
-column_names = ["Company", "Price (Prev Close)", "P/S", "P/E", "Market Cap","Price (today)"]
+column_names = ["Company", "Price (Prev Close)", "P/S", "P/E", "Market Cap", "Price (today)"]
 df = pd.DataFrame(columns=column_names)
 for i in all:
     index = 0
