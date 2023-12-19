@@ -19,7 +19,7 @@ stocks = ["FUTU", "JFU", "OPRT", "XP", "BILL", "OCFT", "HUIZ", "LPRO",
           "HIPO", "PSFE", "ALKT", "FLYW", "PAY", "SOFI", "DLO","MQ", 
           "KPLT", "PAYO", "BLND", "OPFI", "RSKD", "HOOD", "DOMA", "TOST",
           "RELY", "ML", "NVEI", "AVDX", "ENFN", "NRDS", "EXFY", "FINW", 
-          "NU","VCXA", "HKD", "QQEW", "RSP", "EDOW"]
+          "NU", "VCXA", "HKD", "QQEW", "RSP", "EDOW"]
 
 urls = []
 for s in stocks:
@@ -34,22 +34,25 @@ for i, url in enumerate(urls):
         soup = BeautifulSoup(page.text, 
                              'html.parser')
         company = stocks[i]
-        price_td = soup.find('td', text=re.compile('Prev Close'))
+        price_td = soup.find('td', string=re.compile('Prev Close'))
         price = price_td.find_next_sibling('td').text
-        price = float(price)
-        ptos_td = soup.find('td', text=re.compile('P/S'))
+        if price != '-':
+            price = float(price)
+        else:
+            price = None
+        ptos_td = soup.find('td', string=re.compile('P/S'))
         ptos = ptos_td.find_next_sibling('td').text
         if ptos != '-':
             ptos = float(ptos)
         else:
             ptos = None
-        ptoe_td = soup.find('td', text=re.compile('P/E'))
+        ptoe_td = soup.find('td', string=re.compile('P/E'))
         ptoe = ptoe_td.find_next_sibling('td').text
         if ptoe != '-':
             ptoe = float(ptoe)
         else:
             ptoe = None
-        market_cap_td = soup.find('td', text=re.compile('Market Cap'))
+        market_cap_td = soup.find('td', string=re.compile('Market Cap'))
         marketcap_temp = market_cap_td.find_next_sibling('td').text
         marketcap = re.findall('(\d+\.\d+)(?=B)|(\d+\.\d+)(?=M)', marketcap_temp)
         if marketcap:
@@ -59,13 +62,15 @@ for i, url in enumerate(urls):
             marketcap = None
         price2_td = soup.find(find_exact_price)
         price2 = price2_td.find_next_sibling('td').text
-        price2 = float(price2)
-        
+        if price2 != '-':
+            price2 = float(price2)
+        else:
+            price2 = None
         x=[company,price,ptos,ptoe,marketcap,price2]
         all.append(x)
           
     except AttributeError:
-      print("Change the Element id")
+      print("Change the Element id for:", stocks[i])
     
 column_names = ["Company", "Price (Prev Close)", "P/S", "P/E", "Market Cap", "Price (today)"]
 df = pd.DataFrame(columns=column_names)
@@ -76,8 +81,6 @@ for i in all:
 df = df.reset_index(drop=True)
 
 try:
-    # Your existing code to scrape data and create the DataFrame
-
     # Attempt to save in the specified directory
     today = datetime.today().strftime('_%m_%d_%Y')
     path = 'metrics/'
