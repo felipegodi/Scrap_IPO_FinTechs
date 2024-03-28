@@ -35,10 +35,7 @@ for i, url in enumerate(urls):
     try:
         soup = BeautifulSoup(page.text, 
                              'html.parser')
-        #company = soup.find('a', {'class': 'fullview-ticker', 'id': 'ticker'}).text
-        #company = soup.find('a', {'class': 'tab-link', 'id': 'ticker'}).text
         company = stocks[i]
-        #company = soup.find('a', {'js-recent-quote-ticker quote-header_ticker-wrapper_ticker': 'tab-link', 'id': 'ticker'}).text
         price_td = soup.find('td', string=re.compile('Prev Close'))
         price = price_td.find_next_sibling('td').text
         if price != '-':
@@ -65,19 +62,6 @@ for i, url in enumerate(urls):
             marketcap = float(marketcap)
         else:
             marketcap = None
-        #price2_td = None
-        #tds = soup.find_all('td', {'class': 'snapshot-td2-cp'})
-        #for td in tds:
-        #    if td.text == 'Price':
-        #        price2_td = td
-        #        break
-        
-        #if price2_td:
-        #    price2 = price2_td.find_next_sibling('td').text
-        #    price2 = float(price2)
-        #else:
-        #    price2 = None
-        #    print('Price not found')
         price2_td = soup.find(find_exact_price)
         price2 = price2_td.find_next_sibling('td').text
         if price2 != '-':
@@ -100,17 +84,19 @@ df = df.reset_index(drop=True)
 
 try:
     # Attempt to save in the specified directory
-    today = datetime.today().strftime('_%m_%d_%Y')
+    today = datetime.today().strftime('%m_%d_%Y')
+    hour = datetime.today().hour
+    time_suffix = "_am" if hour < 12 else "_pm"
+    filename = f'stocks_{today}{time_suffix}.xlsx'
     path = 'metrics/'
     #path = '/home/runner/work/Scrap_IPO_FinTechs/metrics/'
-    filename = f'stocks{today}.xlsx'
     df.to_excel(f'{path}{filename}')
 except Exception as e:
     print(f"An error occurred while saving in the specified directory: {str(e)}")
     
     # If saving in the specified directory fails, save in the working directory
     try:
-        filename = f'stocks{today}.xlsx'
+        filename = f'stocks_{today}{time_suffix}.xlsx'
         df.to_excel(filename)
         print(f"Saved in the working directory as {filename}")
     except Exception as e:
